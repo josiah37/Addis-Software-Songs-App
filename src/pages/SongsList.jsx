@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchSongsRequest } from "../features/songs/songsSlice";
+import { fetchSongsRequest, createSongRequest } from "../features/songs/songsSlice";
 
 const SongsList = () => {
    const dispatch = useDispatch();
@@ -9,6 +9,23 @@ const SongsList = () => {
    useEffect(() => {
       dispatch(fetchSongsRequest({ page: currentPage }));
    }, [dispatch, currentPage]);
+
+   //  structuring a song to be created
+   const [newSong, setNewSong] = useState({
+      title: "",
+      body: "",
+      //   singer: "",
+      gener: "",
+      userId: 1, // required by jsonplaceholder
+   });
+
+   //to handle  created songs
+   const handleSubmit = (e) => {
+      e.preventDefault();
+      if (newSong.title.trim() === "" || newSong.body.trim() === "") return;
+      dispatch(createSongRequest(newSong));
+      setNewSong({ title: "", body: "", singer: "", gener: "", userId: 1 });
+   };
 
    const goPrev = () => {
       if (currentPage > 1) {
@@ -26,6 +43,32 @@ const SongsList = () => {
       <div style={{ padding: "20px" }}>
          <h1>Addis Software Songs App</h1>
 
+         {/* Add Song Form */}
+         <form onSubmit={handleSubmit} style={{ marginBottom: "20px" }}>
+            <input
+               type="text"
+               placeholder="Song Title"
+               value={newSong.title}
+               onChange={(e) => setNewSong({ ...newSong, title: e.target.value })}
+               style={{ marginRight: "10px" }}
+            />
+            <input
+               type="text"
+               placeholder="Singer"
+               value={newSong.body}
+               onChange={(e) => setNewSong({ ...newSong, body: e.target.value })}
+               style={{ marginRight: "10px" }}
+            />
+            <input
+               type="text"
+               placeholder="Song gener"
+               value={newSong.gener}
+               onChange={(e) => setNewSong({ ...newSong, gener: e.target.value })}
+               style={{ marginRight: "10px" }}
+            />
+            <button type="submit">Add Song</button>
+         </form>
+
          {loading && <p>Loading… please wait</p>}
          {error && <p style={{ color: "red" }}>Error: {error}</p>}
          {!loading && list.length === 0 && <p>No songs found.</p>}
@@ -38,6 +81,9 @@ const SongsList = () => {
                marginTop: "20px",
             }}
          >
+            {/* {console.log(list)}
+            {console.log("the lisste", list.composers)} */}
+            {console.log("state.songs.list:", list)}
             {list.map((song) => (
                <div
                   key={song.id}
@@ -49,8 +95,13 @@ const SongsList = () => {
                   }}
                >
                   <h3>{song.title}</h3>
-                  <p>ID: {song.id}</p>
-                  <p>{song.body?.slice(0, 60)}...</p>
+                  <p> song ID: {song?.id}</p>
+                  <p> genre: {song?.body?.slice(0, 10)}</p>
+                  <p>singer: {song?.gener ? song.gener : song?.body?.slice(0, 10)}</p>
+                  {/* <p>
+                     <b> disciption </b> <br />
+                     {song?.body?.slice(0, 60)}...
+                  </p> */}
                </div>
             ))}
          </div>
