@@ -52,7 +52,7 @@ function* createSong(action) {
    }
 }
 
-// delete Song Worker
+// delete-Song Worker
 function* deleteSong(action) {
    try {
       const id = action.payload;

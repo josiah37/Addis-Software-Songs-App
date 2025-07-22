@@ -13,11 +13,7 @@ const songsSlice = createSlice({
    },
 
    reducers: {
-      // reducer for featch
-      //   fetchSongsRequest: (state) => {
-      //      state.loading = true;
-      //      state.error = null;
-      //   },
+    
 
       fetchSongsRequest: (state, action) => {
          state.loading = true;
@@ -27,13 +23,10 @@ const songsSlice = createSlice({
          }
       },
 
-      //   fetchSongsSuccess: (state, action) => {
-      //      state.list = action.payload;
-      //      state.loading = false;
-      //   },
+    
       fetchSongsSuccess: (state, action) => {
          const { data, totalCount } = action.payload;
-         state.list = data; // ← data must be the array
+         state.list = data; 
          state.loading = false;
          state.totalPages = Math.ceil(totalCount / state.pageSize);
       },
@@ -90,8 +83,7 @@ const songsSlice = createSlice({
    },
 });
 
-//     },
-// });
+
 
 export const {
    // for fetching

@@ -24,7 +24,7 @@ const SongsList = () => {
       body: "",
       //   singer: "",
       gener: "",
-      userId: 1, // required by jsonplaceholder
+      userId: 1,
    });
 
    //to handle  created songs
@@ -89,9 +89,7 @@ const SongsList = () => {
                marginTop: "20px",
             }}
          >
-            {/* {console.log(list)}
-            {console.log("the lisste", list.composers)} */}
-            {console.log("state.songs.list:", list)}
+            {/* {console.log("state.songs.list:", list)} */}
             {list.map((song) => (
                <div
                   key={song.id}
@@ -145,10 +143,7 @@ const SongsList = () => {
                         <p> song ID: {song?.id}</p>
                         <p> singer: {song?.body?.slice(0, 10)}</p>
                         <p>genre: {song?.gener ? song.gener : song?.body?.slice(0, 10)}</p>
-                        {/* <p>
-                     <b> disciption </b> <br />
-                     {song?.body?.slice(0, 60)}...
-                  </p> */}
+
                         <button
                            onClick={() => {
                               setEditingId(song.id);
