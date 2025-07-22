@@ -6,10 +6,10 @@ const songsSlice = createSlice({
       list: [],
       loading: false,
       error: null,
-        // start on page 1 with 10 page sizee and teh totalPages will be recalculated
-        currentPage: 1,
-        totalPages: 1,
-        pageSize: 10,
+      // start on page 1 with 10 page sizee and teh totalPages will be recalculated
+      currentPage: 1,
+      totalPages: 1,
+      pageSize: 10,
    },
 
    reducers: {
@@ -54,6 +54,22 @@ const songsSlice = createSlice({
          state.loading = false;
          state.error = action.payload;
       },
+
+      // reducers for deelting songs
+
+      deleteSongRequest: (state, action) => {
+         state.loading = true;
+         state.error = null;
+      },
+      deleteSongSuccess: (state, action) => {
+         // action.payload is the id of the deleted song
+         state.list = state.list.filter((song) => song.id !== action.payload);
+         state.loading = false;
+      },
+      deleteSongFailure: (state, action) => {
+         state.loading = false;
+         state.error = action.payload;
+      },
    },
 });
 
@@ -61,13 +77,18 @@ const songsSlice = createSlice({
 // });
 
 export const {
+   // for fetching
    fetchSongsRequest,
    fetchSongsSuccess,
    fetchSongsFailure,
-   // create songs
+   // to create songs
    createSongRequest,
    createSongSuccess,
    createSongFailure,
+   // for deleteing
+   deleteSongRequest,
+   deleteSongSuccess,
+   deleteSongFailure,
 } = songsSlice.actions;
 
 export default songsSlice.reducer;

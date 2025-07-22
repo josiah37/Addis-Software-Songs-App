@@ -1,11 +1,17 @@
 import { call, put, takeLatest, all } from "redux-saga/effects";
 import {
+   // featch
    fetchSongsRequest,
    fetchSongsSuccess,
    fetchSongsFailure,
+   // create
    createSongRequest,
    createSongSuccess,
    createSongFailure,
+   //   delete
+   deleteSongRequest,
+   deleteSongFailure,
+   deleteSongSuccess,
 } from "./songsSlice";
 
 // i will Replace with my actual API URL or mock URL if i dont get much time
@@ -42,6 +48,17 @@ function* createSong(action) {
    }
 }
 
+// delete Song Worker
+function* deleteSong(action) {
+   try {
+      const id = action.payload;
+      yield call(fetch, `${API_URL}/${id}`, { method: "DELETE" });
+      yield put(deleteSongSuccess(id));
+   } catch (err) {
+      yield put(deleteSongFailure(err.message));
+   }
+}
+
 // Watcher saga
 function* watchFetchSongs() {
    yield takeLatest(fetchSongsRequest.type, fetchSongs);
@@ -51,7 +68,11 @@ function* watchCreateSong() {
    yield takeLatest(createSongRequest.type, createSong);
 }
 
+function* watchDeleteSong() {
+   yield takeLatest(deleteSongRequest.type, deleteSong);
+}
+
 // Root saga
 export default function* rootSaga() {
-   yield all([watchFetchSongs(), watchCreateSong()]);
+   yield all([watchFetchSongs(), watchCreateSong(), watchDeleteSong()]);
 }

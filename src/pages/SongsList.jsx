@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchSongsRequest, createSongRequest } from "../features/songs/songsSlice";
+import { fetchSongsRequest, createSongRequest, deleteSongRequest } from "../features/songs/songsSlice";
 
 const SongsList = () => {
    const dispatch = useDispatch();
@@ -102,6 +102,12 @@ const SongsList = () => {
                      <b> disciption </b> <br />
                      {song?.body?.slice(0, 60)}...
                   </p> */}
+                  <button
+                     onClick={() => dispatch(deleteSongRequest(song.id))}
+                     style={{ marginTop: "10px", float: "right" }}
+                  >
+                     Delete
+                  </button>
                </div>
             ))}
          </div>
