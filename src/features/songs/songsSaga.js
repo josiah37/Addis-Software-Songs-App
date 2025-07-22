@@ -67,13 +67,15 @@ function* deleteSong(action) {
 function* updateSong(action) {
    try {
       const { id, ...rest } = action.payload;
-      const response = yield call(fetch, `${API_URL}/${id}`, {
+      //   const response = yield call(fetch, `${API_URL}/${id}`, {
+      yield call(fetch, `${API_URL}/${id}`, {
          method: "PUT",
          headers: { "Content-Type": "application/json" },
          body: JSON.stringify(rest),
       });
-      const data = yield response.json();
-      yield put(updateSongSuccess(data));
+      //   const data = yield response.json();
+      //   yield put(updateSongSuccess(data));
+      yield put(updateSongSuccess(action.payload));
    } catch (err) {
       yield put(updateSongFailure(err.message));
    }
