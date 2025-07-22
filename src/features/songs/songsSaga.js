@@ -12,6 +12,10 @@ import {
    deleteSongRequest,
    deleteSongFailure,
    deleteSongSuccess,
+   //    update
+   updateSongRequest,
+   updateSongSuccess,
+   updateSongFailure,
 } from "./songsSlice";
 
 // i will Replace with my actual API URL or mock URL if i dont get much time
@@ -59,6 +63,22 @@ function* deleteSong(action) {
    }
 }
 
+// Worker for update
+function* updateSong(action) {
+   try {
+      const { id, ...rest } = action.payload;
+      const response = yield call(fetch, `${API_URL}/${id}`, {
+         method: "PUT",
+         headers: { "Content-Type": "application/json" },
+         body: JSON.stringify(rest),
+      });
+      const data = yield response.json();
+      yield put(updateSongSuccess(data));
+   } catch (err) {
+      yield put(updateSongFailure(err.message));
+   }
+}
+
 // Watcher saga
 function* watchFetchSongs() {
    yield takeLatest(fetchSongsRequest.type, fetchSongs);
@@ -72,7 +92,11 @@ function* watchDeleteSong() {
    yield takeLatest(deleteSongRequest.type, deleteSong);
 }
 
+function* watchUpdateSong() {
+   yield takeLatest(updateSongRequest.type, updateSong);
+}
+
 // Root saga
 export default function* rootSaga() {
-   yield all([watchFetchSongs(), watchCreateSong(), watchDeleteSong()]);
+   yield all([watchFetchSongs(), watchCreateSong(), watchDeleteSong(), watchUpdateSong()]);
 }

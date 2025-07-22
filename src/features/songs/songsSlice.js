@@ -13,6 +13,7 @@ const songsSlice = createSlice({
    },
 
    reducers: {
+      // reducer for featch
       //   fetchSongsRequest: (state) => {
       //      state.loading = true;
       //      state.error = null;
@@ -70,6 +71,22 @@ const songsSlice = createSlice({
          state.loading = false;
          state.error = action.payload;
       },
+
+      // UPDATE SONG
+      updateSongRequest: (state, action) => {
+         state.loading = true;
+         state.error = null;
+      },
+      updateSongSuccess: (state, action) => {
+         // zis will update z entire song object
+         const updated = action.payload;
+         state.list = state.list.map((song) => (song.id === updated.id ? updated : song));
+         state.loading = false;
+      },
+      updateSongFailure: (state, action) => {
+         state.loading = false;
+         state.error = action.payload;
+      },
    },
 });
 
@@ -89,6 +106,10 @@ export const {
    deleteSongRequest,
    deleteSongSuccess,
    deleteSongFailure,
+   //    dor update
+   updateSongRequest,
+   updateSongSuccess,
+   updateSongFailure,
 } = songsSlice.actions;
 
 export default songsSlice.reducer;

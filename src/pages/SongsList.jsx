@@ -1,10 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchSongsRequest, createSongRequest, deleteSongRequest } from "../features/songs/songsSlice";
+import {
+   fetchSongsRequest,
+   createSongRequest,
+   deleteSongRequest,
+   updateSongRequest,
+} from "../features/songs/songsSlice";
 
 const SongsList = () => {
    const dispatch = useDispatch();
    const { list, loading, error, currentPage, totalPages } = useSelector((state) => state.songs);
+   // for update
+   const [editingId, setEditingId] = useState(null);
+   const [editData, setEditData] = useState({ title: "", body: "", gener: "" });
 
    useEffect(() => {
       dispatch(fetchSongsRequest({ page: currentPage }));
@@ -94,20 +102,70 @@ const SongsList = () => {
                      background: "#f9f9f9",
                   }}
                >
-                  <h3>{song.title}</h3>
-                  <p> song ID: {song?.id}</p>
-                  <p> genre: {song?.body?.slice(0, 10)}</p>
-                  <p>singer: {song?.gener ? song.gener : song?.body?.slice(0, 10)}</p>
-                  {/* <p>
+                  {editingId === song.id ? (
+                     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "2px" }}>
+                        <label htmlFor="title">title</label>
+
+                        <input
+                           type="text"
+                           value={editData.title}
+                           onChange={(e) => setEditData({ ...editData, title: e.target.value })}
+                           style={{ display: "block", marginBottom: "8px", width: "90%" }}
+                        />
+
+                        <label htmlFor="title">singer</label>
+                        <input
+                           type="text"
+                           value={editData.body}
+                           onChange={(e) => setEditData({ ...editData, body: e.target.value })}
+                           style={{ display: "block", marginBottom: "8px", width: "90%" }}
+                        />
+
+                        <label htmlFor="gener">gener</label>
+                        <input
+                           type="text"
+                           value={editData.gener}
+                           onChange={(e) => setEditData({ ...editData, gener: e.target.value })}
+                           style={{ display: "block", marginBottom: "8px", width: "90%" }}
+                        />
+                        <button
+                           onClick={() => {
+                              dispatch(updateSongRequest({ id: song.id, ...editData }));
+                              setEditingId(null);
+                           }}
+                           style={{ margin: "8px" }}
+                        >
+                           Save
+                        </button>
+                        <button onClick={() => setEditingId(null)}>Cancel</button>
+                     </div>
+                  ) : (
+                     <>
+                        <h3>{song.title}</h3>
+                        <p> song ID: {song?.id}</p>
+                        <p> singer: {song?.body?.slice(0, 10)}</p>
+                        <p>genre: {song?.gener ? song.gener : song?.body?.slice(0, 10)}</p>
+                        {/* <p>
                      <b> disciption </b> <br />
                      {song?.body?.slice(0, 60)}...
                   </p> */}
-                  <button
-                     onClick={() => dispatch(deleteSongRequest(song.id))}
-                     style={{ marginTop: "10px", float: "right" }}
-                  >
-                     Delete
-                  </button>
+                        <button
+                           onClick={() => {
+                              setEditingId(song.id);
+                              setEditData({ title: song.title, body: song.body });
+                           }}
+                           style={{ marginTop: "10px", float: "left" }}
+                        >
+                           Edit
+                        </button>
+                        <button
+                           onClick={() => dispatch(deleteSongRequest(song.id))}
+                           style={{ marginTop: "10px", float: "right" }}
+                        >
+                           Delete
+                        </button>
+                     </>
+                  )}
                </div>
             ))}
          </div>
