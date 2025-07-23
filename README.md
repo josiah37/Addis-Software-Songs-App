@@ -2,32 +2,32 @@
 
 A full‑stack demo application for managing a list of songs, built for the Addis Software internship test. This frontend is implemented in React (functional components), with manual Webpack configuration, global state managed by Redux Toolkit + Redux‑Saga, and styling powered by Emotion + Styled System.
 
-This project is deployed on netlify: addis-song-app-eyosiyas37.netlify.app
+## This project is deployed on netlify: https://addis-song-app-eyosiyas37.netlify.app
+
+## Features
+
+-  **Paginated list**: Fetch and display songs from a REST API (JSONPlaceholder) with Prev/Next controls.
+-  **CRUD operations**:
+
+   -  **Create**: Open a modal form to add a new song.
+   -  **Read**: View song details in a grid of cards.
+   -  **Update**: Inline edit each card’s title/body/genre.
+   -  **Delete**: Remove songs from the list.
+
+-  **State management**: Redux Toolkit for slices, Redux‑Saga for side effects (API calls).
+-  **Styling**: Emotion for CSS‑in‑JS + Styled System for theme‑driven props.
+-  **Manual build setup**: No Create React App or Vite—configured Webpack, Babel, asset loaders, environment variables.
+
 ---
 
-## ��� Features
+## Tech Stack
 
-* **Paginated list**: Fetch and display songs from a REST API (JSONPlaceholder) with Prev/Next controls.
-* **CRUD operations**:
-
-  * **Create**: Open a modal form to add a new song.
-  * **Read**: View song details in a grid of cards.
-  * **Update**: Inline edit each card’s title/body/genre.
-  * **Delete**: Remove songs from the list.
-* **State management**: Redux Toolkit for slices, Redux‑Saga for side effects (API calls).
-* **Styling**: Emotion for CSS‑in‑JS + Styled System for theme‑driven props.
-* **Manual build setup**: No Create React App or Vite—configured Webpack, Babel, asset loaders, environment variables.
-
----
-
-## ���️ Tech Stack
-
-* **React 18** (functional components, hooks)
-* **Redux Toolkit** & **Redux‑Saga**
-* **Emotion** (& `@emotion/react`, `@emotion/styled`)
-* **Styled System**
-* **Webpack 5** + **Babel**
-* **JSONPlaceholder** for mock REST API
+-  **React 18** (functional components, hooks)
+-  **Redux Toolkit** & **Redux‑Saga**
+-  **Emotion** (& `@emotion/react`, `@emotion/styled`)
+-  **Styled System**
+-  **Webpack 5** + **Babel**
+-  **JSONPlaceholder** for mock REST API
 
 ---
 
@@ -36,7 +36,7 @@ This project is deployed on netlify: addis-song-app-eyosiyas37.netlify.app
 1. **Clone the repo**
 
    ```bash
-   git clone <your‑repo‑url>
+   git clone https://github.com/josiah37/Addis-Software-Songs-App.git
    cd addis‑software‑songs‑app
    ```
 
@@ -64,109 +64,111 @@ This project is deployed on netlify: addis-song-app-eyosiyas37.netlify.app
 
 ---
 
-## ��� Webpack Configuration
+## Webpack Configuration
 
 The custom `webpack.config.js` includes:
 
 ```js
 module.exports = {
-  entry: './src/index.jsx',
-  output: { path: path.resolve(__dirname, 'dist'), filename: 'bundle.[contenthash].js', clean: true },
-  module: { rules: [
-    { test: /\.(js|jsx)$/, exclude: /node_modules/, use: ['babel-loader'] },
-    { test: /\.css$/i, use: ['style-loader','css-loader'] },
-    { test: /\.(png|jpe?g|gif|svg)$/i, type: 'asset/resource' }
-  ]},
-  resolve: { extensions: ['.js','.jsx'] },
-  plugins: [
-    new HtmlWebpackPlugin({ template: './public/index.html' }),
-    new Dotenv()
-  ],
-  devServer: { static: './dist', hot: true, open: true, port: 3000 },
-  mode: 'development',
-}
+   entry: "./src/index.jsx",
+   output: { path: path.resolve(__dirname, "dist"), filename: "bundle.[contenthash].js", clean: true },
+   module: {
+      rules: [
+         { test: /\.(js|jsx)$/, exclude: /node_modules/, use: ["babel-loader"] },
+         { test: /\.css$/i, use: ["style-loader", "css-loader"] },
+         { test: /\.(png|jpe?g|gif|svg)$/i, type: "asset/resource" },
+      ],
+   },
+   resolve: { extensions: [".js", ".jsx"] },
+   plugins: [new HtmlWebpackPlugin({ template: "./public/index.html" }), new Dotenv()],
+   devServer: { static: "./dist", hot: true, open: true, port: 3000 },
+   mode: "development",
+};
 ```
 
-* **Babel** presets: `@babel/preset-env`, `@babel/preset-react` with automatic runtime.
-* **Loaders** for JS/JSX, CSS, and images.
-* **Environment**: `dotenv-webpack` to inject `API_BASE_URL` or other vars.
+-  **Babel** presets: `@babel/preset-env`, `@babel/preset-react` with automatic runtime.
+-  **Loaders** for JS/JSX, CSS, and images.
+-  **Environment**: `dotenv-webpack` to inject `API_BASE_URL` or other vars.
 
 ---
 
-## ���️ Redux Toolkit & Redux‑Saga
+## Redux Toolkit & Redux‑Saga
 
-* **Store setup** in `src/app/store.js`, applying Saga middleware:
+-  **Store setup** in `src/app/store.js`, applying Saga middleware:
 
-  ```js
-  const sagaMiddleware = createSagaMiddleware();
-  const store = configureStore({ reducer: { songs: songsReducer }, middleware: getDefaultMiddleware => getDefaultMiddleware({ thunk: false }).concat(sagaMiddleware) });
-  sagaMiddleware.run(rootSaga);
-  ```
-* **Slice**: `src/features/songs/songsSlice.js` defines
+   ```js
+   const sagaMiddleware = createSagaMiddleware();
+   const store = configureStore({
+      reducer: { songs: songsReducer },
+      middleware: (getDefaultMiddleware) => getDefaultMiddleware({ thunk: false }).concat(sagaMiddleware),
+   });
+   sagaMiddleware.run(rootSaga);
+   ```
 
-  * `fetchSongsRequest/Success/Failure`
-  * `createSongRequest/Success/Failure`
-  * `updateSongRequest/Success/Failure`
-  * `deleteSongRequest/Success/Failure`
-* **Saga**: `src/features/songs/songsSaga.js` handles side‑effects with `call`, `put`, `takeLatest`, and `all`.
-<!--  -  * Fetch uses pagination query params (`?_page=&_limit=`)-->
-  * Create/Update/Delete call respective HTTP methods.
+-  **Slice**: `src/features/songs/songsSlice.js` defines
 
----
+   -  `fetchSongsRequest/Success/Failure`
+   -  `createSongRequest/Success/Failure`
+   -  `updateSongRequest/Success/Failure`
+   -  `deleteSongRequest/Success/Failure`
 
-## ��� Styling with Emotion & Styled System
-
-* **Theme** defined in `src/theme.js` with colors, spacing, and radii.
-* **`Grid`, `Card`, `Button`, `Input`** reusable components in `src/components/ui.js` using styled‑system props (`space`, `layout`, `color`, etc.).
-* **Emotion’s `css` prop** used for the Create modal overlay and forcing card background image where needed.
+-  **Saga**: `src/features/songs/songsSaga.js` handles side‑effects with `call`, `put`, `takeLatest`, and `all`.
+   <!--  -  * Fetch uses pagination query params (`?_page=&_limit=`)-->
+   -  Create/Update/Delete call respective HTTP methods.
 
 ---
 
-## ��� AI Usage Disclosure
+## Styling with Emotion & Styled System
+
+-  **Theme** defined in `src/theme.js` with colors, spacing, and radii.
+-  **`Grid`, `Card`, `Button`, `Input`** reusable components in `src/components/ui.js` using styled‑system props (`space`, `layout`, `color`, etc.).
+-  **Emotion’s `css` prop** used for the Create modal overlay and forcing card background image where needed.
+
+---
+
+## AI Usage Disclosure
 
 Parts generated by AI tools:
 
-* Boilerplate for Redux‑Saga watcher setup snippets.
-* Initial emotion/styled-system component scaffolding.
-* and on diffrent part bacuse of my limted time(since i saw the project on last day)
+-  Boilerplate for Redux‑Saga watcher setup snippets.
+-  Initial emotion/styled-system component scaffolding.
+-  and on diffrent part bacuse of my limted time(since i saw the project on last day)
 
 **Verification**:
 
-* Manually reviewed every generated line.
-* Confirmed local builds and HMR.
-* Tested CRUD flows, pagination, and modal UI.
+-  Manually reviewed every generated line.
+-  Confirmed local builds and HMR.
+-  Tested CRUD flows, pagination, and modal UI.
 
 ---
 
-## ��� Scripts
+## Scripts
 
-| Command             | Description            |
-| ------------------- | ---------------------- |
-| `npm start`         | Start dev server (HMR) |
-| `npm run build`     | Build for production   |
-
-
----
-
-## ��� Deployment
-
-1. **Frontend**: Deploy `dist/` to Netlify addis-song-app-eyosiyas37.netlify.app
-2. **Backend**:  i just used JSONPlaceholder.
+| Command         | Description            |
+| --------------- | ---------------------- |
+| `npm start`     | Start dev server (HMR) |
+| `npm run build` | Build for production   |
 
 ---
 
-## ��� Commit Guidelines
+## Deployment
 
-* I used **Conventional Commits**:
+1. **Frontend**: Deploy `dist/` to Netlify [addis-song-app-eyosiyas37.netlify.app](https://addis-song-app-eyosiyas37.netlify.app)
+2. **Backend**: i just used JSONPlaceholder.
 
-  * `feat:` for new features.
-  * `fix:` for bug fixes.
-  * `chore:` for tooling changes.
-  * `doc`: for Readme.
+---
+
+## Commit Guidelines
+
+-  I used **Conventional Commits**:
+
+   -  `feat:` for new features.
+   -  `fix:` for bug fixes.
+   -  `chore:` for tooling changes.
+   -  `doc`: for Readme.
 
 Example: `feat: add pagination to songs list`
 
 ---
 
 <p align="center">Thnakyou for reading this; Happy coding! ���</p>
-
