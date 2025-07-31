@@ -13,8 +13,6 @@ const songsSlice = createSlice({
    },
 
    reducers: {
-    
-
       fetchSongsRequest: (state, action) => {
          state.loading = true;
          state.error = null;
@@ -23,10 +21,9 @@ const songsSlice = createSlice({
          }
       },
 
-    
       fetchSongsSuccess: (state, action) => {
          const { data, totalCount } = action.payload;
-         state.list = data; 
+         state.list = data;
          state.loading = false;
          state.totalPages = Math.ceil(totalCount / state.pageSize);
       },
@@ -82,8 +79,6 @@ const songsSlice = createSlice({
       },
    },
 });
-
-
 
 export const {
    // for fetching
