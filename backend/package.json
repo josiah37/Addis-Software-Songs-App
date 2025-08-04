@@ -1,0 +1,17 @@
+{
+   "name": "addis-song-backend",
+   "version": "1.0.0",
+   "description": "",
+   "license": "ISC",
+   "author": "",
+   "type": "module",
+   "main": "index.js",
+   "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+   },
+   "dependencies": {
+      "mongoose": "^8.17.0",
+      "sequelize": "^6.37.7",
+      "sqlite3": "^5.1.7"
+   }
+}
