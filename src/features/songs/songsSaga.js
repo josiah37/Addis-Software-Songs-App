@@ -40,7 +40,8 @@ function* fetchSongs(action) {
 // Create Song Worker
 function* createSong(action) {
    try {
-      const response = yield call(fetch, API_URL, {
+      // const response = yield call(fetch, `${API_URL}/createsong`, {
+      const response = yield call(fetch, `http://localhost:3002/createsong`, {
          method: "POST",
          body: JSON.stringify(action.payload),
          headers: { "Content-Type": "application/json" },

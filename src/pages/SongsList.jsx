@@ -20,7 +20,7 @@ const SongsList = () => {
    const { list, loading, error, currentPage, totalPages } = useSelector((state) => state.songs);
    // for update
    const [editingId, setEditingId] = useState(null);
-   const [editData, setEditData] = useState({ title: "", body: "", gener: "" });
+   const [editData, setEditData] = useState({ title: "", singer: "", genre: "" });
 
    useEffect(() => {
       dispatch(fetchSongsRequest({ page: currentPage }));
@@ -29,9 +29,9 @@ const SongsList = () => {
    //  structuring a song to be created
    const [newSong, setNewSong] = useState({
       title: "",
-      body: "",
+      singer: "",
       //   singer: "",
-      gener: "",
+      genre: "",
       userId: 1,
    });
    // control create‑modal visibility & form data
@@ -42,7 +42,7 @@ const SongsList = () => {
       if (!newSong.title.trim() || !newSong.body.trim()) return;
       dispatch(createSongRequest(newSong));
       setShowCreate(false);
-      setNewSong({ title: "", body: "", gener: "", userId: 1 });
+      setNewSong({ title: "", singer: "", genre: "", userId: 1 });
    };
 
    const goPrev = () => {
@@ -83,9 +83,9 @@ const SongsList = () => {
             />
             <input
                type="text"
-               placeholder="Song gener"
-               value={newSong.gener}
-               onChange={(e) => setNewSong({ ...newSong, gener: e.target.value })}
+               placeholder="Song genre"
+               value={newSong.genre}
+               onChange={(e) => setNewSong({ ...newSong, genre: e.target.value })}
                flex="1"
                borderColor="cardBorder"
                borderRadius="sm"
@@ -130,14 +130,14 @@ const SongsList = () => {
                   <Input
                      placeholder="Singer"
                      mb={2}
-                     value={newSong.body}
-                     onChange={(e) => setNewSong({ ...newSong, body: e.target.value })}
+                     value={newSong.singer}
+                     onChange={(e) => setNewSong({ ...newSong, singer: e.target.value })}
                   />
                   <Input
                      placeholder="Genre"
                      mb={3}
-                     value={newSong.gener}
-                     onChange={(e) => setNewSong({ ...newSong, gener: e.target.value })}
+                     value={newSong.genre}
+                     onChange={(e) => setNewSong({ ...newSong, genre: e.target.value })}
                   />
                   <div css={css({ display: "flex", justifyContent: "flex-end", gap: 8 })}>
                      <Button onClick={() => setShowCreate(false)} mr={2}>
@@ -207,16 +207,16 @@ const SongsList = () => {
                         <label htmlFor="title">singer</label>
                         <input
                            type="text"
-                           value={editData.body}
-                           onChange={(e) => setEditData({ ...editData, body: e.target.value })}
+                           value={editData.singer}
+                           onChange={(e) => setEditData({ ...editData, singer: e.target.value })}
                            style={{ display: "block", marginBottom: "5px", width: "90%", padding: "2% 1%" }}
                         />
 
-                        <label htmlFor="gener">gener</label>
+                        <label htmlFor="genre">genre</label>
                         <input
                            type="text"
-                           value={editData.gener}
-                           onChange={(e) => setEditData({ ...editData, gener: e.target.value })}
+                           value={editData.genre}
+                           onChange={(e) => setEditData({ ...editData, genre: e.target.value })}
                            style={{ display: "block", marginBottom: "5px", width: "90%", padding: "2% 1%" }}
                         />
                         <button
@@ -236,14 +236,14 @@ const SongsList = () => {
                            {song.title?.slice(0, 20)}
                         </h3>
                         <p style={{ color: "#fff", fontWeight: "bolder" }}>Song Id: {song.id}</p>
-                        <p style={{ color: "#fff", fontWeight: "bolder" }}>Singer: {song.body.slice(0, 10)}</p>
+                        <p style={{ color: "#fff", fontWeight: "bolder" }}>Singer: {song.singer.slice(0, 10)}</p>
                         <p style={{ color: "#fff", fontWeight: "bolder" }}>
-                           Gener: {song?.gener ? song.gener : song.body?.slice(0, 5)}
+                           genre: {song?.genre ? song.genre : song.singer?.slice(0, 5)}
                         </p>
                         <Button
                            onClick={() => {
                               setEditingId(song.id);
-                              setEditData({ title: song.title, body: song.body, gener: song.gener });
+                              setEditData({ title: song.title, singer: song.singer, genre: song.genre });
                            }}
                            bg="primary"
                            color="white"
