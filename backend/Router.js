@@ -1,6 +1,6 @@
 import express from "express";
 // import songController from "./Controllers/song.controller.js";
-import { createSong, getAllSongs } from "./Controllers/song.controller.js";
+import { createSong, getAllSongs, updateSongByID, deleteSongById } from "./Controllers/song.controller.js";
 // Call the router method from express to create the router
 
 const router = express.Router();
@@ -11,4 +11,7 @@ router.post("/create_song", createSong);
 // list song
 router.get("/", getAllSongs);
 
+router.patch("/update_song/:id", updateSongByID);
+
+router.delete("/delete_song/:id", deleteSongById);
 export default router;
