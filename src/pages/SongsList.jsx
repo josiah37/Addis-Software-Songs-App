@@ -30,7 +30,6 @@ const SongsList = () => {
    const [newSong, setNewSong] = useState({
       title: "",
       singer: "",
-      //   singer: "",
       genre: "",
       userId: 1,
    });
@@ -61,39 +60,6 @@ const SongsList = () => {
       <div style={{ padding: "32px" }}>
          <h1 style={{ textAlign: "center", paddingBottom: "2%" }}>Addis Software Songs App</h1>
 
-         {/* Add Song Form */}
-         {/* <form onSubmit={handleSubmit} style={{ marginBottom: 24, display: "flex", gap: 16 }}>
-            <input
-               type="text"
-               placeholder="Song Title"
-               value={newSong.title}
-               onChange={(e) => setNewSong({ ...newSong, title: e.target.value })}
-               flex="1"
-               borderColor="cardBorder"
-               borderRadius="sm"
-            />
-            <input
-               type="text"
-               placeholder="Singer"
-               value={newSong.body}
-               onChange={(e) => setNewSong({ ...newSong, body: e.target.value })}
-               flex="1"
-               borderColor="cardBorder"
-               borderRadius="sm"
-            />
-            <input
-               type="text"
-               placeholder="Song genre"
-               value={newSong.genre}
-               onChange={(e) => setNewSong({ ...newSong, genre: e.target.value })}
-               flex="1"
-               borderColor="cardBorder"
-               borderRadius="sm"
-            />
-            <button type="submit" bg="primary" color="white" px={3} borderRadius="md">
-               Add Song
-            </button>
-         </form> */}
          <Button
             onClick={() => setShowCreate(true)}
             bg="primary"

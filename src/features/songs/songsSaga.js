@@ -19,9 +19,10 @@ import {
 } from "./songsSlice";
 
 // i will Replace with my actual API URL or mock URL if i dont get much time
-const API_URL = "https://jsonplaceholder.typicode.com/posts";
+// const API_URL = "https://jsonplaceholder.typicode.com/posts";
 // const API_URL = "https://my-json-server.typicode.com/ridoansaleh/my-music-api/songs";
-// const API_URL = "https://api.openopus.org/work/dump.json";
+// const API_URL = "https://api.openopus.org/work/Ldump.json";
+const API_URL = "http://localhost:3002/";
 
 // Fetch songs worker saga
 function* fetchSongs(action) {
